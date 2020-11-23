@@ -18,8 +18,8 @@ contract Election {
     
     modifier validCandidate {
         require(candidateList[msg.sender].voted == false && 
-                start == true, 
-                "Not valid or already voted or start = false");
+                start == true,
+                "Not valid ");
         _;
     }
     
@@ -34,6 +34,8 @@ contract Election {
     }
     
     function vote(address _candidate) public validCandidate {
+        // Not allow to vote for yourself
+        require (msg.sender != _candidate);
         candidateList[_candidate].vote += 1;
         candidateList[msg.sender].voted = true;
     }
@@ -61,9 +63,8 @@ contract Election {
         return (winner, candidateList[winner].name, voteMax);
     }
     
-    
     function startElection() public onlyOwner {
-        require (start == false, "already started");
+        require (start == false&& candidateLength > 2,  "already started or candidate not enogth" );
         start = true;
     }
 }

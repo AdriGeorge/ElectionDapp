@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Contract from './contracts/Election.json';
 import getWeb3 from './getWeb3';
+import Manager from './components/Manager.js';
 
 import './App.css';
 
@@ -53,7 +54,12 @@ class App extends Component {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
-    return <h4>Every thing is ok, check your console.</h4>;
+    return (
+      <main>
+        <section className="vote">vote part</section>
+        <Manager />
+      </main>
+    );
   }
 }
 
