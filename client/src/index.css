@@ -201,6 +201,14 @@ button {
 }
 
 .vote {
+  margin-left: 200px;
+  padding-left: 20px;
 }
 .manager {
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(75, 75, 75);
 }

@@ -3,7 +3,7 @@ pragma solidity >=0.4.0 < 0.8.0;
 
 contract Election {
     
-     struct candidate {
+    struct candidate {
         string name;
         uint vote;
         bool voted;
@@ -66,5 +66,9 @@ contract Election {
     function startElection() public onlyOwner {
         require (start == false&& candidateLength > 2,  "already started or candidate not enogth" );
         start = true;
+    }
+
+    function getCandidateInfo(uint i) public view returns (address, string memory, uint) {
+        return (candidateAddress[i], candidateList[candidateAddress[i]].name, candidateList[candidateAddress[i]].vote);
     }
 }

@@ -6,7 +6,7 @@ import Manager from './components/Manager.js';
 import './App.css';
 
 class App extends Component {
-  state = { web3: null, accounts: null, contract: null };
+  state = { web3: null, accounts: null, contract: null, candidateList: null };
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -50,14 +50,41 @@ class App extends Component {
   };
   */
 
+  addCandidate = async (address, name) => {
+    const { accounts, contract } = this.state;
+    await contract.methods
+      .addCandidate(address, name)
+      .send({ from: accounts[0] });
+    console.log('New candidate added');
+  };
+
+  startElection = async () => {
+    const { accounts, contract } = this.state;
+  };
+
+  vote = async (address) => {
+    const { accounts, contract } = this.state;
+  };
+
+  getWinner = async () => {
+    const { accounts, contract } = this.state;
+  };
+
+  getCandidate = async () => {
+    const { accounts, contract, candidateList } = this.state;
+  };
+
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <main>
-        <section className="vote">vote part</section>
-        <Manager />
+        <div className="vote">vote part</div>
+        <Manager
+          addCandidate={this.addCandidate}
+          accounts={this.state.accounts}
+        />
       </main>
     );
   }
