@@ -35,27 +35,13 @@ class App extends Component {
     }
   };
 
-  /*
-  runExample = async () => {
-    const { accounts, contract } = this.state;
-
-    // Add 1+1
-    var x = await contract.methods.get().call({ from: accounts[0] });
-    console.log('App -> x', x);
-    await contract.methods.set(5).send({ from: accounts[0] });
-
-    // set 5
-    x = await contract.methods.get().call({ from: accounts[0] });
-    console.log('App -> x', x);
-  };
-  */
-
   addCandidate = async (address, name) => {
-    const { accounts, contract } = this.state;
-    await contract.methods
-      .addCandidate(address, name)
-      .send({ from: accounts[0] });
-    console.log('New candidate added');
+    // const { accounts, contract } = this.state;
+    // await contract.methods
+    //   .addCandidate(address, name)
+    //   .send({ from: accounts[0] });
+    // console.log('New candidate added');
+    console.log(address + ': ' + name);
   };
 
   startElection = async () => {

@@ -171,6 +171,19 @@ h3 {
   color: var(--clr-primary-1);
 }
 
+.title {
+  text-align: center;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
+}
+.underline {
+  width: 6rem;
+  height: 0.25rem;
+  background: var(--clr-primary-5);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .form {
   text-transform: capitalize;
   letter-spacing: var(--spacing);
@@ -195,6 +208,13 @@ input {
 button {
   background: var(--clr-primary-10);
 }
+
+.addCandidate {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+}
+
 .result {
   margin-bottom: 2rem;
   margin-top: 2rem;
@@ -206,9 +226,22 @@ button {
 }
 .manager {
   height: 100%;
-  width: 300px;
+  width: 35%;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgb(75, 75, 75);
+  background-color: rgb(177, 180, 194);
+}
+
+.candidateForm {
+  position: absolute;
+  top: 10%;
+  left: 2%;
+}
+.candidateName {
+  position: absolute;
+  top: 13.5%;
+  right: 1%;
+  min-width: 100px;
+  background-color: rgb(202, 211, 247);
 }
