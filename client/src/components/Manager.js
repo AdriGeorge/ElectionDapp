@@ -6,7 +6,7 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 //import 'bootstrap/dist/css/bootstrap.css';
 
-const Manager = ({ addCandidate, accounts }) => {
+const Manager = ({ addCandidate, start, getWinner, accounts }) => {
   const useStyles = makeStyles((theme) => ({
     button: {
       display: 'block',
@@ -14,13 +14,13 @@ const Manager = ({ addCandidate, accounts }) => {
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 300,
+      minWidth: 400,
     },
   }));
 
   const classes = useStyles();
 
-  const [account, setAccount] = useState(accounts[0]);
+  const [account, setAccount] = useState('');
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
 
@@ -35,6 +35,13 @@ const Manager = ({ addCandidate, accounts }) => {
   function handleChange(e) {
     setAccount(e.target.value);
   }
+
+  const addAndReset = (e, address, name) => {
+    e.preventDefault();
+    addCandidate(address, name);
+    setName('');
+    setAccount('');
+  };
 
   return (
     <div className="manager">
@@ -77,23 +84,23 @@ const Manager = ({ addCandidate, accounts }) => {
         onChange={(e) => setName(e.target.value)}
       />
       <br />
-      <div class="addCandidate-container">
+      <div className="addCandidate-container">
         <button
           className="add"
           type="button"
-          onClick={(e) => addCandidate(account, name)}
+          onClick={(e) => addAndReset(e, account, name)}
         >
-          <i class="fa fa-cart-plus"></i>
+          <i className="fa fa-cart-plus"></i>
           Add candidate
         </button>
       </div>
-      <div class="container">
-        <button className="add-to-cart">
-          <i class="fa fa-cart-plus"></i>Start
+      <div className="container">
+        <button className="add-to-cart" onClick={() => start()}>
+          <i className="fa fa-cart-plus"></i>Start
         </button>
         <br />
-        <button className="green">
-          <i class="fa fa-thumbs-up"></i>Who wins?
+        <button className="green" onClick={() => getWinner()}>
+          <i className="fa fa-thumbs-up"></i>Who wins?
         </button>
       </div>
     </div>

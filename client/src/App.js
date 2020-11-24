@@ -46,7 +46,8 @@ class App extends Component {
   };
 
   startElection = async () => {
-    const { accounts, contract } = this.state;
+    console.log('clicked startElection');
+    // const { accounts, contract } = this.state;
   };
 
   vote = async (address) => {
@@ -54,7 +55,8 @@ class App extends Component {
   };
 
   getWinner = async () => {
-    const { accounts, contract } = this.state;
+    console.log('clicked getWinner');
+    // const { accounts, contract } = this.state;
   };
 
   getCandidate = async () => {
@@ -70,6 +72,8 @@ class App extends Component {
         <Candidate />
         <Manager
           addCandidate={this.addCandidate}
+          start={this.startElection}
+          getWinner={this.getWinner}
           accounts={this.state.accounts}
         />
       </main>
