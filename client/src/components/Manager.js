@@ -73,17 +73,29 @@ const Manager = ({ addCandidate, accounts }) => {
         type="text"
         name="name"
         value={name}
-        placeHolder="name"
+        placeholder="name"
         onChange={(e) => setName(e.target.value)}
       />
       <br />
-      <button
-        type="button"
-        className="btn btn-outline-success addCandidate"
-        onClick={(e) => addCandidate(account, '')}
-      >
-        Add candidate
-      </button>
+      <div class="addCandidate-container">
+        <button
+          className="add"
+          type="button"
+          onClick={(e) => addCandidate(account, name)}
+        >
+          <i class="fa fa-cart-plus"></i>
+          Add candidate
+        </button>
+      </div>
+      <div class="container">
+        <button className="add-to-cart">
+          <i class="fa fa-cart-plus"></i>Start
+        </button>
+        <br />
+        <button className="green">
+          <i class="fa fa-thumbs-up"></i>Who wins?
+        </button>
+      </div>
     </div>
   );
 };

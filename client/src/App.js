@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Contract from './contracts/Election.json';
 import getWeb3 from './getWeb3';
 import Manager from './components/Manager.js';
+import Candidate from './components/Candidate.js';
 
 import './App.css';
 
@@ -66,7 +67,7 @@ class App extends Component {
     }
     return (
       <main>
-        <div className="vote">vote part</div>
+        <Candidate />
         <Manager
           addCandidate={this.addCandidate}
           accounts={this.state.accounts}
