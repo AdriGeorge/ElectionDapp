@@ -71,4 +71,8 @@ contract Election {
     function getCandidateInfo(uint i) public view returns (address, string memory, uint) {
         return (candidateAddress[i], candidateList[candidateAddress[i]].name, candidateList[candidateAddress[i]].vote);
     }
+
+    function getLength() public view returns (uint) {
+        return candidateLength;
+    }
 }

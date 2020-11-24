@@ -26,7 +26,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance });
+      this.setState({ web3, accounts, contract: instance }, this.getCandidate);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -37,12 +37,12 @@ class App extends Component {
   };
 
   addCandidate = async (address, name) => {
-    // const { accounts, contract } = this.state;
-    // await contract.methods
-    //   .addCandidate(address, name)
-    //   .send({ from: accounts[0] });
-    // console.log('New candidate added');
-    console.log(address + ': ' + name);
+    const { accounts, contract } = this.state;
+    await contract.methods
+      .addCandidate(address, name)
+      .send({ from: accounts[0] });
+    console.log('New candidate added');
+    this.getCandidate();
   };
 
   startElection = async () => {
@@ -60,7 +60,32 @@ class App extends Component {
   };
 
   getCandidate = async () => {
-    const { accounts, contract, candidateList } = this.state;
+    const { accounts, contract } = this.state;
+    var candidateLength = await contract.methods
+      .getLength()
+      .call({ from: accounts[0] });
+    console.log(
+      '🚀 ~ file: App.js ~ line 65 ~ App ~ getCandidate= ~ candidateLength',
+      candidateLength
+    );
+    var candidates = [{}];
+    for (var i = 0; i < candidateLength; i++) {
+      var result = await contract.methods
+        .getCandidateInfo(i)
+        .send({ from: accounts[0] });
+
+      console.log(
+        '🚀 ~ file: App.js ~ line 74 ~ App ~ getCandidate= ~ result',
+        result
+      );
+
+      candidates.push(result);
+    }
+    this.setState({ candidateList: candidates });
+    console.log(
+      '🚀 ~ file: App.js ~ line 77 ~ App ~ getCandidate= ~ candidateList',
+      this.state.candidateList[0]
+    );
   };
 
   render() {
@@ -69,7 +94,7 @@ class App extends Component {
     }
     return (
       <main>
-        <Candidate />
+        <Candidate candidates={this.state.candidateList} />
         <Manager
           addCandidate={this.addCandidate}
           start={this.startElection}

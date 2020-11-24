@@ -47,6 +47,7 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
     <div className="manager">
       <div className="title">
         <h3>candidate to add</h3>
+        <div className="underline"></div>
       </div>
       <label className="candidateForm">
         <FormControl className={classes.formControl}>
@@ -80,7 +81,7 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
         type="text"
         name="name"
         value={name}
-        placeholder="name"
+        placeholder="Name"
         onChange={(e) => setName(e.target.value)}
       />
       <br />

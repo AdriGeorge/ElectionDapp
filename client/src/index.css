@@ -179,7 +179,7 @@ h3 {
 .underline {
   width: 6rem;
   height: 0.25rem;
-  background: var(--clr-primary-5);
+  background: var(--clr-primary-1);
   margin-left: auto;
   margin-right: auto;
 }
@@ -283,7 +283,7 @@ button:active i {
   margin-top: 2rem;
 }
 
-.vote {
+.candidate {
   margin-left: 200px;
   padding-left: 20px;
 }

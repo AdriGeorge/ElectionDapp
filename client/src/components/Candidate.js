@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Candidate = () => {
-  return <div className="candidate">Ciao</div>;
+const Candidate = ({ candidates }) => {
+  return <div className="candida"></div>;
 };
 
 export default Candidate;
