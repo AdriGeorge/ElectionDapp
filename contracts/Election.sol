@@ -64,7 +64,7 @@ contract Election {
     }
     
     function startElection() public onlyOwner {
-        require (start == false&& candidateLength > 2,  "already started or candidate not enogth" );
+        require (start == false && candidateLength > 2,  "already started or candidate not enogth" );
         start = true;
     }
 

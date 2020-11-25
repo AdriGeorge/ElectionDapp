@@ -26,13 +26,16 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
 
   function handleOpen() {
     setOpen(true);
+    console.log('open');
   }
 
   function handleClose() {
     setOpen(false);
+    console.log('close');
   }
 
   function handleChange(e) {
+    console.log('change');
     setAccount(e.target.value);
   }
 
@@ -41,6 +44,7 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
     addCandidate(address, name);
     setName('');
     setAccount('');
+    console.log('resete');
   };
 
   return (

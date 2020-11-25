@@ -7,7 +7,13 @@ import Candidate from './components/Candidate.js';
 import './App.css';
 
 class App extends Component {
-  state = { web3: null, accounts: null, contract: null, candidateList: null };
+  state = {
+    web3: null,
+    accounts: null,
+    contract: null,
+    candidateList: [],
+    winner: null,
+  };
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -40,14 +46,15 @@ class App extends Component {
     const { accounts, contract } = this.state;
     await contract.methods
       .addCandidate(address, name)
-      .send({ from: accounts[0] });
+      .send({ from: accounts[0], gas: 1000000 });
     console.log('New candidate added');
     this.getCandidate();
   };
 
   startElection = async () => {
-    console.log('clicked startElection');
-    // const { accounts, contract } = this.state;
+    const { accounts, contract } = this.state;
+    await contract.methods.startElection().call({ from: accounts[0] });
+    console.log('start election');
   };
 
   vote = async (address) => {
@@ -56,36 +63,27 @@ class App extends Component {
 
   getWinner = async () => {
     console.log('clicked getWinner');
-    // const { accounts, contract } = this.state;
+    const { accounts, contract, winner } = this.state;
+    const result = await contract.methods
+      .getWinner()
+      .call({ from: accounts[0] });
+    this.setState({ winner: result });
   };
 
   getCandidate = async () => {
+    console.log('sono io che rompo');
     const { accounts, contract } = this.state;
     var candidateLength = await contract.methods
       .getLength()
       .call({ from: accounts[0] });
-    console.log(
-      '🚀 ~ file: App.js ~ line 65 ~ App ~ getCandidate= ~ candidateLength',
-      candidateLength
-    );
-    var candidates = [{}];
+    var arrayOfCandidate = [];
     for (var i = 0; i < candidateLength; i++) {
       var result = await contract.methods
         .getCandidateInfo(i)
-        .send({ from: accounts[0] });
-
-      console.log(
-        '🚀 ~ file: App.js ~ line 74 ~ App ~ getCandidate= ~ result',
-        result
-      );
-
-      candidates.push(result);
+        .call({ from: accounts[0] });
+      arrayOfCandidate = [...arrayOfCandidate, result];
     }
-    this.setState({ candidateList: candidates });
-    console.log(
-      '🚀 ~ file: App.js ~ line 77 ~ App ~ getCandidate= ~ candidateList',
-      this.state.candidateList[0]
-    );
+    this.setState({ candidateList: arrayOfCandidate });
   };
 
   render() {
@@ -101,6 +99,13 @@ class App extends Component {
           getWinner={this.getWinner}
           accounts={this.state.accounts}
         />
+        <div className="winner">
+          {this.state.winner ? (
+            <h3>{this.state.winner[0][1]}</h3>
+          ) : (
+            <h3>Still in game</h3>
+          )}
+        </div>
       </main>
     );
   }
