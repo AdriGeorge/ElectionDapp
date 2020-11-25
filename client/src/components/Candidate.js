@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
-const Candidate = ({ candidates }) => {
+const Candidate = ({ candidates, voteButton, start }) => {
   console.log('length' + candidates.length);
   const [index, setIndex] = React.useState(0);
   useEffect(() => {
@@ -42,6 +42,13 @@ const Candidate = ({ candidates }) => {
               <h4>{name}</h4>
               <p>address: {address}</p>
               <p>Vote: {vote}</p>
+              {start ? (
+                <button className="btn" onClick={() => voteButton(address)}>
+                  Vote
+                </button>
+              ) : (
+                <h4>Wait to vote</h4>
+              )}
             </article>
           );
         })}

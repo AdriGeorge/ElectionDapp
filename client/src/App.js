@@ -13,6 +13,7 @@ class App extends Component {
     contract: null,
     candidateList: [],
     winner: null,
+    start: false,
   };
   componentDidMount = async () => {
     try {
@@ -52,13 +53,22 @@ class App extends Component {
   };
 
   startElection = async () => {
+    if (this.state.start) return;
     const { accounts, contract } = this.state;
-    await contract.methods.startElection().call({ from: accounts[0] });
-    console.log('start election');
+    await contract.methods.startElection().send({ from: accounts[0] });
+    const result = await contract.methods
+      .getStart()
+      .call({ from: accounts[0] });
+    this.setState({ start: result });
+    console.log(this.state.start);
   };
 
   vote = async (address) => {
     const { accounts, contract } = this.state;
+    console.log('going to  vote ' + address + ' with ' + accounts[0]);
+    await contract.methods.vote(address).send({ from: accounts[0] });
+    console.log('voted');
+    this.getCandidate();
   };
 
   getWinner = async () => {
@@ -92,7 +102,11 @@ class App extends Component {
     }
     return (
       <main>
-        <Candidate candidates={this.state.candidateList} />
+        <Candidate
+          candidates={this.state.candidateList}
+          voteButton={this.vote}
+          start={this.state.start}
+        />
         <Manager
           addCandidate={this.addCandidate}
           start={this.startElection}

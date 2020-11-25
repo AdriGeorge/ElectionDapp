@@ -17,9 +17,8 @@ contract Election {
     uint candidateLength = 0;
     
     modifier validCandidate {
-        require(candidateList[msg.sender].voted == false && 
-                start == true,
-                "Not valid ");
+        require(candidateList[msg.sender].voted == false, "already voted"); 
+        require(start == true, "false");
         _;
     }
     
@@ -35,7 +34,7 @@ contract Election {
     
     function vote(address _candidate) public validCandidate {
         // Not allow to vote for yourself
-        require (msg.sender != _candidate);
+        require (msg.sender != _candidate, "you can not vote for yourself");
         candidateList[_candidate].vote += 1;
         candidateList[msg.sender].voted = true;
     }
@@ -64,7 +63,7 @@ contract Election {
     }
     
     function startElection() public onlyOwner {
-        require (start == false && candidateLength > 2,  "already started or candidate not enogth" );
+        require (start == false && candidateLength > 2,  "already started or candidate not enought" );
         start = true;
     }
 
@@ -74,5 +73,9 @@ contract Election {
 
     function getLength() public view returns (uint) {
         return candidateLength;
+    }
+
+    function getStart() public view returns (bool){
+        return start;
     }
 }
