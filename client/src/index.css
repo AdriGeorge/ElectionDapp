@@ -363,7 +363,7 @@ button:active i {
 article {
   position: absolute;
   text-align: center;
-  margin-left: 10%;
+  margin-left: 11.5%;
   margin-top: 5%;
   width: 20%;
   height: 40%;
@@ -382,8 +382,10 @@ article.nextSlide {
 }
 
 .winner {
-  position: absolute;
+  position: relative;
   text-align: center;
-  margin-left: 58%;
-  margin-top: 40%;
+  margin-left: 50%;
+  height: 100px;
+  width: 500px;
+  margin-top: 10%;
 }

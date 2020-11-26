@@ -6,7 +6,14 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 //import 'bootstrap/dist/css/bootstrap.css';
 
-const Manager = ({ addCandidate, start, getWinner, accounts }) => {
+const Manager = ({
+  addCandidate,
+  startElection,
+  getWinner,
+  accounts,
+  start,
+  winner,
+}) => {
   const useStyles = makeStyles((theme) => ({
     button: {
       display: 'block',
@@ -26,16 +33,13 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
 
   function handleOpen() {
     setOpen(true);
-    console.log('open');
   }
 
   function handleClose() {
     setOpen(false);
-    console.log('close');
   }
 
   function handleChange(e) {
-    console.log('change');
     setAccount(e.target.value);
   }
 
@@ -44,7 +48,6 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
     addCandidate(address, name);
     setName('');
     setAccount('');
-    console.log('resete');
   };
 
   return (
@@ -100,13 +103,21 @@ const Manager = ({ addCandidate, start, getWinner, accounts }) => {
         </button>
       </div>
       <div className="container">
-        <button className="add-to-cart" onClick={() => start()}>
-          <i className="fa fa-cart-plus"></i>Start
-        </button>
+        {start ? (
+          <h2>Election is running</h2>
+        ) : (
+          <button className="add-to-cart" onClick={() => startElection()}>
+            <i className="fa fa-cart-plus"></i>Start
+          </button>
+        )}
         <br />
-        <button className="green" onClick={() => getWinner()}>
-          <i className="fa fa-thumbs-up"></i>Who wins?
-        </button>
+        {winner != null ? (
+          <h4>This election is close, the winner is {winner[1]}</h4>
+        ) : (
+          <button className="green" onClick={() => getWinner()}>
+            <i className="fa fa-thumbs-up"></i>Who wins?
+          </button>
+        )}
       </div>
     </div>
   );

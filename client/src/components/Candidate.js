@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
-const Candidate = ({ candidates, voteButton, start }) => {
-  console.log('length' + candidates.length);
+const Candidate = ({ candidates, voteButton, start, close }) => {
+  console.log('close' + close);
   const [index, setIndex] = React.useState(0);
   useEffect(() => {
     const lastIndex = candidates.length - 1;
@@ -14,7 +14,6 @@ const Candidate = ({ candidates, voteButton, start }) => {
     }
   }, [index, candidates]);
 
-  console.log(candidates);
   return (
     <section className="section">
       <div className="title">
@@ -27,7 +26,7 @@ const Candidate = ({ candidates, voteButton, start }) => {
           const address = candidate[0];
           const name = candidate[1];
           const vote = candidate[2];
-          console.log(name);
+
           let position = 'nextSlide';
           if (i === index) {
             position = 'activeSlide';
@@ -35,19 +34,17 @@ const Candidate = ({ candidates, voteButton, start }) => {
           if (i === index - 1) {
             position = 'lastSlide';
           }
-          console.log(candidate);
-          console.log('sono nel map');
           return (
             <article className={position} key={i}>
               <h4>{name}</h4>
               <p>address: {address}</p>
               <p>Vote: {vote}</p>
-              {start ? (
+              {start && !close ? (
                 <button className="btn" onClick={() => voteButton(address)}>
                   Vote
                 </button>
               ) : (
-                <h4>Wait to vote</h4>
+                <h4>You can't vote</h4>
               )}
             </article>
           );

@@ -14,6 +14,7 @@ class App extends Component {
     candidateList: [],
     winner: null,
     start: false,
+    close: false,
   };
   componentDidMount = async () => {
     try {
@@ -34,6 +35,16 @@ class App extends Component {
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ web3, accounts, contract: instance }, this.getCandidate);
+
+      const start = await this.state.contract.methods
+        .getStart()
+        .call({ from: accounts[0] });
+      this.setState({ start: start });
+
+      const close = await this.state.contract.methods
+        .getClose()
+        .call({ from: accounts[0] });
+      this.setState({ close: close });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -48,7 +59,6 @@ class App extends Component {
     await contract.methods
       .addCandidate(address, name)
       .send({ from: accounts[0], gas: 1000000 });
-    console.log('New candidate added');
     this.getCandidate();
   };
 
@@ -60,28 +70,25 @@ class App extends Component {
       .getStart()
       .call({ from: accounts[0] });
     this.setState({ start: result });
-    console.log(this.state.start);
   };
 
   vote = async (address) => {
     const { accounts, contract } = this.state;
-    console.log('going to  vote ' + address + ' with ' + accounts[0]);
     await contract.methods.vote(address).send({ from: accounts[0] });
-    console.log('voted');
     this.getCandidate();
   };
 
   getWinner = async () => {
-    console.log('clicked getWinner');
-    const { accounts, contract, winner } = this.state;
+    const { accounts, contract } = this.state;
     const result = await contract.methods
       .getWinner()
-      .call({ from: accounts[0] });
-    this.setState({ winner: result });
+      .send({ from: accounts[0] });
+    const close = await contract.methods.getClose().call({ from: accounts[0] });
+    this.setState({ winner: result.events.Winner.returnValues });
+    this.setState({ close: close });
   };
 
   getCandidate = async () => {
-    console.log('sono io che rompo');
     const { accounts, contract } = this.state;
     var candidateLength = await contract.methods
       .getLength()
@@ -106,16 +113,23 @@ class App extends Component {
           candidates={this.state.candidateList}
           voteButton={this.vote}
           start={this.state.start}
+          close={this.state.close}
         />
         <Manager
           addCandidate={this.addCandidate}
-          start={this.startElection}
+          startElection={this.startElection}
           getWinner={this.getWinner}
           accounts={this.state.accounts}
+          start={this.state.start}
+          winner={this.state.winner}
         />
         <div className="winner">
           {this.state.winner ? (
-            <h3>{this.state.winner[0][1]}</h3>
+            <div className="winner-info">
+              <h3>The winner is: {this.state.winner[1]}</h3>
+              <h4>{this.state.winner[0]}</h4>
+              <p>with {this.state.winner[2]} votes</p>
+            </div>
           ) : (
             <h3>Still in game</h3>
           )}

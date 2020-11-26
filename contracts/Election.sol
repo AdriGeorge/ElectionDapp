@@ -14,7 +14,10 @@ contract Election {
     
     address owner;
     bool start;
+    bool close;
     uint candidateLength = 0;
+
+    event Winner(address, string, uint);
     
     modifier validCandidate {
         require(candidateList[msg.sender].voted == false, "already voted"); 
@@ -30,9 +33,11 @@ contract Election {
     constructor() public{
         owner = msg.sender;
         start = false;
+        close = false;
     }
     
     function vote(address _candidate) public validCandidate {
+        require(close == false, "Election is close");
         // Not allow to vote for yourself
         require (msg.sender != _candidate, "you can not vote for yourself");
         candidateList[_candidate].vote += 1;
@@ -40,7 +45,7 @@ contract Election {
     }
     
     function addCandidate(address _newCandidate, string memory _name) public onlyOwner{
-        require(start == false);
+        require(start == false && close == false);
         candidateAddress[candidateLength] = _newCandidate;
         candidateLength += 1;
         candidateList[_newCandidate].name = _name;
@@ -48,7 +53,7 @@ contract Election {
         candidateList[_newCandidate].voted = false;
     }
     
-    function getWinner() public view onlyOwner returns(address, string memory, uint){
+    function getWinner() public onlyOwner{
         uint voteMax = 0;
         uint x = 0;
         address winner;
@@ -59,7 +64,8 @@ contract Election {
                 winner = candidateAddress[i];
             }
         }
-        return (winner, candidateList[winner].name, voteMax);
+        close = true;
+        emit Winner(winner, candidateList[winner].name, voteMax);
     }
     
     function startElection() public onlyOwner {
@@ -77,5 +83,9 @@ contract Election {
 
     function getStart() public view returns (bool){
         return start;
+    }
+
+    function getClose() public view returns(bool){
+        return close;
     }
 }
